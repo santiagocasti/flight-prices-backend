@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestApiController {
 
-    @RequestMapping("/test")//, method=RequestMethod.GET
-    public @ResponseBody
-    String runTest(){
+    @RequestMapping("/hello")
+    public @ResponseBody String runTest(){
             return "Hello stranger!";
+    }
+
+    public static void main(String[] args) throws Exception {
+        System.out.println("starting controller");
     }
 }
