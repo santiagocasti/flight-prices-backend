@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Component
 public class ImportsRepository {
@@ -18,6 +19,10 @@ public class ImportsRepository {
 
     public Timestamp getLastImportDate(){
         return this.jdbcTemplate.queryForObject("SELECT import_date FROM imports ORDER BY import_date DESC LIMIT 1", Timestamp.class);
+    }
+
+    public void recordNewImport(Date importDate){
+        this.jdbcTemplate.update("INSERT INTO imports (id, import_date) VALUES (default, ?)", new Object[] {importDate});
     }
 
 }
