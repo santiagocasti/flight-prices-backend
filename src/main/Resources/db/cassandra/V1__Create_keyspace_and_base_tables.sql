@@ -39,17 +39,11 @@ CREATE TABLE general_tax (
   name text
 );
 
--- definition of flight type
-
---check
 CREATE TYPE flight (
   carrier text,
   number text
 );
 
--- definition of leg type
-
---check
 CREATE TYPE leg (
   kind text,
   id text,
@@ -70,9 +64,6 @@ CREATE TYPE leg (
   changePlane boolean
 );
 
--- definition of segment type: includes flight and leg
-
---check
 CREATE TYPE segment (
   kind text,
   duration int,
@@ -87,7 +78,6 @@ CREATE TYPE segment (
   connectionDuration int
 );
 
---check
 CREATE TYPE fare (
   kind text,
   id text,
@@ -98,7 +88,6 @@ CREATE TYPE fare (
   private boolean
 );
 
---check
 CREATE TYPE passengers (
   kind text,
   adultCount int,
@@ -108,7 +97,6 @@ CREATE TYPE passengers (
   seniorCount int
 );
 
---check
 CREATE TYPE tax (
   kind text,
   id text,
@@ -118,7 +106,6 @@ CREATE TYPE tax (
   salePrice text
 );
 
---check
 CREATE TYPE bag_descriptor (
   kind text,
   commercialName text,
@@ -127,7 +114,6 @@ CREATE TYPE bag_descriptor (
   subcode text
 );
 
--- check
 CREATE TYPE baggage_option (
   kind text,
   bagDescriptor frozen<set<bag_descriptor>>,
@@ -137,7 +123,6 @@ CREATE TYPE baggage_option (
   pounds int
 );
 
---check
 CREATE TYPE segment_pricing (
   kind text,
   fareId text,
@@ -145,7 +130,6 @@ CREATE TYPE segment_pricing (
   freeBaggageOption frozen<set<baggage_option>>,
 );
 
---check
 CREATE TYPE pricing (
   kind text,
   fare frozen<set<fare>>,
@@ -162,19 +146,19 @@ CREATE TYPE pricing (
   refundable boolean
 );
 
-
 CREATE TYPE slice (
   kind text,
   duration int,
   segment frozen<set<segment>>,
 );
 
---checkCREATE TABLE import (
+CREATE TABLE import (
   date text,
   time text,
   numResults int,
   PRIMARY KEY (date, time)
-)
+);
+
 CREATE TABLE trip_option (
   kind text,
   saleTotal text,
@@ -185,57 +169,6 @@ CREATE TABLE trip_option (
   time text,
   PRIMARY KEY (date, time, id)
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---
--- CREATE TYPE address(
---   street text,
---   number text
--- );
---
--- CREATE TYPE people (
---   first text,
---   middle text,
---   last text,
---   address frozen<address>
--- );
--- CREATE TABLE names (
---   id uuid PRIMARY KEY,
---   name frozen<people>
--- );
---
--- INSERT INTO
---   names (id, name)
--- VALUES (
---   now(),
---   {
---     first: 'santiago',
---     middle: 'julian',
---     last: 'castineira',
---     address: {
---       street: 'Isartalstr.',
---       number: '45A'
---     },
---     magorcho: {
---       one: '1'
---     }
---   }
--- );
 
 
 
