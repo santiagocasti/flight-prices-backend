@@ -2,12 +2,10 @@ package com.fly.me.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fly.me.dtos.pojos.SearchResponse;
-import com.fly.me.repositories.FlightsRepository;
 import com.fly.me.repositories.ImportsRepository;
 import com.fly.me.services.SearchResults;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpEntity;
-import org.apache.http.Consts;
 import org.apache.http.util.EntityUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -17,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 @RestController
 public class ImportsController {
@@ -29,15 +24,7 @@ public class ImportsController {
     protected ImportsRepository importsRepository;
 
     @Autowired
-    protected FlightsRepository flightsRepository;
-
-    @Autowired
     protected SearchResults searchResultsService;
-
-    @Autowired
-    public ImportsController(ImportsRepository importsRepository) {
-        this.importsRepository = importsRepository;
-    }
 
     @RequestMapping("/imports")
     public @ResponseBody String imports() {

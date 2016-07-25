@@ -5,6 +5,8 @@ import com.fly.me.repositories.ImportsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class ImportsService {
 
@@ -19,6 +21,11 @@ public class ImportsService {
         importInstance.setNumResults(numImports);
 
         return importsRepository.saveImport(importInstance);
+    }
+
+    public Import getLast(){
+        Date now = new Date();
+        return importsRepository.getLastImportFrom(now);
     }
 
 }
