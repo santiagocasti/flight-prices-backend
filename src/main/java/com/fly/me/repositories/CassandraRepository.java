@@ -9,11 +9,15 @@ import com.fly.me.base.CassandraConnector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.logging.Logger;
+
 @Repository
 public class CassandraRepository {
 
     @Autowired
     CassandraConnector connector;
+
+    private final Logger logger = Logger.getLogger(CassandraRepository.class.toString());
 
     public Boolean insertJsonObject(String table, Object object) {
 
@@ -23,7 +27,7 @@ public class CassandraRepository {
         try {
             json = mapper.writeValueAsString(object);
         } catch (JsonProcessingException ex) {
-            System.out.println("Exception converting carrier to JSON.");
+            logger.info("Exception converting carrier to JSON.");
             ex.printStackTrace();
         }
 

@@ -7,6 +7,8 @@ import com.fly.me.repositories.CassandraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class HealthCheckService {
 
@@ -15,6 +17,8 @@ public class HealthCheckService {
 
     @Autowired
     protected ImportsService importsService;
+
+    private final Logger logger = Logger.getLogger(HealthCheckService.class.toString());
 
     public String performHealthCheck() {
 
@@ -27,7 +31,7 @@ public class HealthCheckService {
         try {
             result = mapper.writeValueAsString(imp);
         } catch (JsonProcessingException e) {
-            System.out.println("Exception while converting object to JSON.");
+            logger.info("Exception while converting object to JSON.");
             e.printStackTrace();
         }
 

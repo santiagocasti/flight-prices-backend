@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @RestController
 public class ImportsController {
@@ -26,13 +27,15 @@ public class ImportsController {
     @Autowired
     protected SearchResults searchResultsService;
 
+    private final Logger logger = Logger.getLogger(ImportsController.class.toString());
+
     @RequestMapping("/imports")
     public @ResponseBody String imports() {
         try {
             this.tryApacheHttpClient();
 //            this.fakeResponse();
         } catch (Exception e) {
-            System.out.println("Shit happened!");
+            logger.info("Shit happened!");
             e.printStackTrace();
         }
 
@@ -45,46 +48,46 @@ public class ImportsController {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost(url);
 
-        System.out.println("URL is: " + url);
+        logger.info("URL is: " + url);
 
         post.setHeader("Content-Type", "application/json");
 
         try {
             String body = "{ \"request\": { \"passengers\": { \"adultCount\": 1 }, \"slice\": [ { \"origin\": \"BOS\", \"destination\": \"LAX\", \"date\": \"2016-11-15\" }, { \"origin\": \"LAX\", \"destination\": \"BOS\", \"date\": \"2016-11-17\" } ] } }";
-            System.out.println("body: " + body);
+            logger.info("body: " + body);
             post.setEntity(new StringEntity(body));
 
             HttpResponse response = client.execute(post);
-            System.out.println("Response Code : "
+            logger.info("Response Code : "
                     + response.getStatusLine().getStatusCode());
 
 
             HttpEntity entity = response.getEntity();
             String result = EntityUtils.toString(entity, "UTF-8");
 
-            System.out.println("The size of result is: " + result.length());
+            logger.info("The size of result is: " + result.length());
             ObjectMapper mapper = new ObjectMapper();
 
             //JSON from String to Object
             SearchResponse searchResponse = mapper.readValue(result, SearchResponse.class);
-            System.out.println("Kind of object: " + searchResponse.getKind());
+            logger.info("Kind of object: " + searchResponse.getKind());
 
             searchResultsService.saveSearchResults(searchResponse);
 
         } catch (Exception e) {
-            System.out.println("Shit happened!");
-            System.out.println(e.getMessage());
+            logger.info("Shit happened!");
+            logger.info(e.getMessage());
         }
     }
 
     public void fakeResponse() throws IOException {
         String result = RESPONSE;
-        System.out.println("The size of result is: " + result.length());
+        logger.info("The size of result is: " + result.length());
         ObjectMapper mapper = new ObjectMapper();
 
         //JSON from String to Object
         SearchResponse searchResponse = mapper.readValue(result, SearchResponse.class);
-        System.out.println("Kind of object: " + searchResponse.getKind());
+        logger.info("Kind of object: " + searchResponse.getKind());
 
         searchResultsService.saveSearchResults(searchResponse);
     }
