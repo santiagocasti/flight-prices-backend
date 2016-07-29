@@ -1,21 +1,19 @@
 package com.fly.me.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fly.me.dtos.pojos.FlightSearchParameters;
 import com.fly.me.dtos.pojos.SearchResponse;
 import com.fly.me.repositories.ImportsRepository;
-import com.fly.me.services.SearchResults;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpEntity;
-import org.apache.http.util.EntityUtils;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
+import com.fly.me.services.FlightSearchService;
+import com.fly.me.services.SearchResultsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.logging.Logger;
 
 @RestController
@@ -25,59 +23,35 @@ public class ImportsController {
     protected ImportsRepository importsRepository;
 
     @Autowired
-    protected SearchResults searchResultsService;
+    protected FlightSearchService flightSearchService;
+
+    @Autowired
+    protected SearchResultsService searchResultsService;
 
     private final Logger logger = Logger.getLogger(ImportsController.class.toString());
 
     @RequestMapping("/imports")
-    public @ResponseBody String imports() {
+    public
+    @ResponseBody
+    String imports() {
         try {
-            this.tryApacheHttpClient();
+            FlightSearchParameters params = new FlightSearchParameters();
+            params.setAdultCount(1);
+            params.setOrigin("BOS");
+            params.setDestination("LAX");
+            params.setFlightOutDate(LocalDate.of(2016, Month.NOVEMBER, 15));
+            params.setFlightBackDate(LocalDate.of(2016, Month.NOVEMBER, 17));
+            params.setReturnFlight(true);
+            flightSearchService.findFlights(params);
+
 //            this.fakeResponse();
+
         } catch (Exception e) {
             logger.info("Shit happened!");
             e.printStackTrace();
         }
 
         return "Yolo";
-    }
-
-    public void tryApacheHttpClient() {
-        String url = "https://www.googleapis.com/qpxExpress/v1/trips/search" + "?" + "key=" + "AIzaSyCvjuJ4p6UuXSIQ3_9JqfsEeGvTXr32Nuk";
-
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(url);
-
-        logger.info("URL is: " + url);
-
-        post.setHeader("Content-Type", "application/json");
-
-        try {
-            String body = "{ \"request\": { \"passengers\": { \"adultCount\": 1 }, \"slice\": [ { \"origin\": \"BOS\", \"destination\": \"LAX\", \"date\": \"2016-11-15\" }, { \"origin\": \"LAX\", \"destination\": \"BOS\", \"date\": \"2016-11-17\" } ] } }";
-            logger.info("body: " + body);
-            post.setEntity(new StringEntity(body));
-
-            HttpResponse response = client.execute(post);
-            logger.info("Response Code : "
-                    + response.getStatusLine().getStatusCode());
-
-
-            HttpEntity entity = response.getEntity();
-            String result = EntityUtils.toString(entity, "UTF-8");
-
-            logger.info("The size of result is: " + result.length());
-            ObjectMapper mapper = new ObjectMapper();
-
-            //JSON from String to Object
-            SearchResponse searchResponse = mapper.readValue(result, SearchResponse.class);
-            logger.info("Kind of object: " + searchResponse.getKind());
-
-            searchResultsService.saveSearchResults(searchResponse);
-
-        } catch (Exception e) {
-            logger.info("Shit happened!");
-            logger.info(e.getMessage());
-        }
     }
 
     public void fakeResponse() throws IOException {
