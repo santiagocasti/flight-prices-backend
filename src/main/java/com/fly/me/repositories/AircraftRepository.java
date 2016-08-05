@@ -1,5 +1,6 @@
 package com.fly.me.repositories;
 
+import com.fly.me.base.CassandraRepository;
 import com.fly.me.dtos.pojos.Aircraft;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

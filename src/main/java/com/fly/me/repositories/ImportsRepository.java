@@ -4,6 +4,7 @@ import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
+import com.fly.me.base.CassandraRepository;
 import com.fly.me.dtos.pojos.Import;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
