@@ -1,25 +1,32 @@
 package com.fly.me.dtos.pojos;
 
-public class Slice {
-    private String duration;
+import com.datastax.driver.mapping.annotations.Frozen;
+import com.datastax.driver.mapping.annotations.UDT;
 
-    private Segment[] segment;
+import java.util.List;
+
+@UDT(keyspace = "flights", name = "slice")
+public class Slice {
+    private Integer duration;
+
+    @Frozen("frozen<list<segment>>")
+    private List<Segment> segment;
 
     private String kind;
 
-    public String getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
-    public Segment[] getSegment() {
+    public List<Segment> getSegment() {
         return segment;
     }
 
-    public void setSegment(Segment[] segment) {
+    public void setSegment(List<Segment> segment) {
         this.segment = segment;
     }
 

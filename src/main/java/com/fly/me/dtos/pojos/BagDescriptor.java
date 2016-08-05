@@ -1,10 +1,15 @@
 package com.fly.me.dtos.pojos;
 
-public class BadDescriptor {
+import com.datastax.driver.mapping.annotations.UDT;
+
+import java.util.List;
+
+@UDT(keyspace = "flights", name = "bag_descriptor")
+public class BagDescriptor {
     private String kind;
     private String commercialName;
     private Integer count;
-    private String[] description;
+    private List<String> description;
     private String subcode;
 
     public String getKind() {
@@ -31,11 +36,11 @@ public class BadDescriptor {
         this.count = count;
     }
 
-    public String[] getDescription() {
+    public List<String> getDescription() {
         return description;
     }
 
-    public void setDescription(String[] description) {
+    public void setDescription(List<String> description) {
         this.description = description;
     }
 

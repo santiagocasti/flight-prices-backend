@@ -1,17 +1,25 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.Frozen;
+import com.datastax.driver.mapping.annotations.UDT;
+
+import java.util.List;
+
+@UDT(keyspace = "flights", name = "segment")
 public class Segment {
-    private String bookingCodeCount;
+    private Integer bookingCodeCount;
 
     private String id;
 
-    private Leg[] leg;
+    @Frozen("frozen<list<frozen<leg>>>")
+    private List<Leg> leg;
 
     private String cabin;
 
+    @Frozen("frozen<flight>")
     private Flight flight;
 
-    private String duration;
+    private Integer duration;
 
     private String marriedSegmentGroup;
 
@@ -21,7 +29,7 @@ public class Segment {
 
     private Integer connectionDuration;
 
-    private String subjectToGovernmentApproval;
+    private Boolean subjectToGovernmentApproval;
 
     public Integer getConnectionDuration() {
         return connectionDuration;
@@ -31,19 +39,19 @@ public class Segment {
         this.connectionDuration = connectionDuration;
     }
 
-    public String getSubjectToGovernmentApproval() {
+    public Boolean getSubjectToGovernmentApproval() {
         return subjectToGovernmentApproval;
     }
 
-    public void setSubjectToGovernmentApproval(String subjectToGovernmentApproval) {
+    public void setSubjectToGovernmentApproval(Boolean subjectToGovernmentApproval) {
         this.subjectToGovernmentApproval = subjectToGovernmentApproval;
     }
 
-    public String getBookingCodeCount() {
+    public Integer getBookingCodeCount() {
         return bookingCodeCount;
     }
 
-    public void setBookingCodeCount(String bookingCodeCount) {
+    public void setBookingCodeCount(Integer bookingCodeCount) {
         this.bookingCodeCount = bookingCodeCount;
     }
 
@@ -55,11 +63,11 @@ public class Segment {
         this.id = id;
     }
 
-    public Leg[] getLeg() {
+    public List<Leg> getLeg() {
         return leg;
     }
 
-    public void setLeg(Leg[] leg) {
+    public void setLeg(List<Leg> leg) {
         this.leg = leg;
     }
 
@@ -79,11 +87,11 @@ public class Segment {
         this.flight = flight;
     }
 
-    public String getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

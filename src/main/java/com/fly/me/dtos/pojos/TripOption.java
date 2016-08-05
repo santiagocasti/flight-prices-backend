@@ -1,19 +1,33 @@
 package com.fly.me.dtos.pojos;
 
-public class TripOption {
-    private Pricing[] pricing;
+import com.datastax.driver.mapping.annotations.ClusteringColumn;
+import com.datastax.driver.mapping.annotations.Frozen;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
+import java.util.List;
+
+@Table( keyspace = "flights", name = "trip_option")
+public class TripOption {
+
+    @PartitionKey
+    private String date;
+
+    @ClusteringColumn(0)
+    private String time;
+
+    @ClusteringColumn(1)
     private String id;
+
+    @Frozen("frozen<list<frozen<pricing>>>")
+    private List<Pricing> pricing;
 
     private String saleTotal;
 
-    private Slice[] slice;
+    @Frozen("frozen<list<frozen<slice>>>")
+    private List<Slice> slice;
 
     private String kind;
-
-    private String date;
-
-    private String time;
 
     public String getDate() {
         return date;
@@ -31,11 +45,11 @@ public class TripOption {
         this.time = time;
     }
 
-    public Pricing[] getPricing() {
+    public List<Pricing> getPricing() {
         return pricing;
     }
 
-    public void setPricing(Pricing[] pricing) {
+    public void setPricing(List<Pricing> pricing) {
         this.pricing = pricing;
     }
 
@@ -55,11 +69,11 @@ public class TripOption {
         this.saleTotal = saleTotal;
     }
 
-    public Slice[] getSlice() {
+    public List<Slice> getSlice() {
         return slice;
     }
 
-    public void setSlice(Slice[] slice) {
+    public void setSlice(List<Slice> slice) {
         this.slice = slice;
     }
 

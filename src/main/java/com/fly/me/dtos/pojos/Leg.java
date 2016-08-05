@@ -1,11 +1,14 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.UDT;
+
+@UDT(keyspace = "flights", name = "leg")
 public class Leg {
     private String originTerminal;
 
-    private String mileage;
+    private Integer mileage;
 
-    private String secure;
+    private Boolean secure;
 
     private String departureTime;
 
@@ -13,7 +16,7 @@ public class Leg {
 
     private String destinationTerminal;
 
-    private String onTimePerformance;
+    private Integer onTimePerformance;
 
     private String kind;
 
@@ -21,7 +24,7 @@ public class Leg {
 
     private String id;
 
-    private String duration;
+    private Integer duration;
 
     private String arrivalTime;
 
@@ -31,7 +34,7 @@ public class Leg {
 
     private String meal;
 
-    private String connectionDuration;
+    private Integer connectionDuration;
 
     private Boolean changePlane;
 
@@ -43,11 +46,11 @@ public class Leg {
         this.meal = meal;
     }
 
-    public String getConnectionDuration() {
+    public Integer getConnectionDuration() {
         return connectionDuration;
     }
 
-    public void setConnectionDuration(String connectionDuration) {
+    public void setConnectionDuration(Integer connectionDuration) {
         this.connectionDuration = connectionDuration;
     }
 
@@ -75,19 +78,19 @@ public class Leg {
         this.originTerminal = originTerminal;
     }
 
-    public String getMileage() {
+    public Integer getMileage() {
         return mileage;
     }
 
-    public void setMileage(String mileage) {
+    public void setMileage(Integer mileage) {
         this.mileage = mileage;
     }
 
-    public String getSecure() {
+    public Boolean getSecure() {
         return secure;
     }
 
-    public void setSecure(String secure) {
+    public void setSecure(Boolean secure) {
         this.secure = secure;
     }
 
@@ -115,11 +118,11 @@ public class Leg {
         this.destinationTerminal = destinationTerminal;
     }
 
-    public String getOnTimePerformance() {
+    public Integer getOnTimePerformance() {
         return onTimePerformance;
     }
 
-    public void setOnTimePerformance(String onTimePerformance) {
+    public void setOnTimePerformance(Integer onTimePerformance) {
         this.onTimePerformance = onTimePerformance;
     }
 
@@ -147,11 +150,11 @@ public class Leg {
         this.id = id;
     }
 
-    public String getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 

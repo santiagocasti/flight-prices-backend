@@ -1,8 +1,16 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.Frozen;
+import com.datastax.driver.mapping.annotations.UDT;
+
+import java.util.List;
+
+@UDT(keyspace = "flights", name = "baggage_option")
 public class FreeBaggageOption {
     private String kind;
-    private BadDescriptor badDescriptor;
+
+    @Frozen("frozen<list<frozen<bag_descriptor>>>")
+    private List<BagDescriptor> bagDescriptor;
     private Integer kilos;
     private Integer kilosPerPiece;
     private Integer pieces;
@@ -16,12 +24,12 @@ public class FreeBaggageOption {
         this.kind = kind;
     }
 
-    public BadDescriptor getBadDescriptor() {
-        return badDescriptor;
+    public List<BagDescriptor> getBagDescriptor() {
+        return bagDescriptor;
     }
 
-    public void setBadDescriptor(BadDescriptor badDescriptor) {
-        this.badDescriptor = badDescriptor;
+    public void setBagDescriptor(List<BagDescriptor> bagDescriptor) {
+        this.bagDescriptor = bagDescriptor;
     }
 
     public Integer getKilos() {

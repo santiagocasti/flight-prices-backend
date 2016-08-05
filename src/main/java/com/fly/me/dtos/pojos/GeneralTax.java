@@ -1,6 +1,12 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
+
+@Table(keyspace = "flights", name = "general_tax")
 public class GeneralTax {
+
+    @PartitionKey
     private String id;
 
     private String name;

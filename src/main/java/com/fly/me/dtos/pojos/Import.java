@@ -1,9 +1,18 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.ClusteringColumn;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
+@Table(keyspace = "flights", name = "import")
 public class Import {
+
+    @PartitionKey
     protected String date;
+
+    @ClusteringColumn(0)
     protected String time;
+
     protected int numResults;
 
     public String getDate() {

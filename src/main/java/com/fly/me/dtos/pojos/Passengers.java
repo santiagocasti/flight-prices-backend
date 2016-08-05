@@ -1,7 +1,10 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.UDT;
+
+@UDT(keyspace = "flights", name = "passengers")
 public class Passengers {
-    private String adultCount;
+    private Integer adultCount;
 
     private String kind;
 
@@ -45,11 +48,11 @@ public class Passengers {
         this.seniorCount = seniorCount;
     }
 
-    public String getAdultCount() {
+    public Integer getAdultCount() {
         return adultCount;
     }
 
-    public void setAdultCount(String adultCount) {
+    public void setAdultCount(Integer adultCount) {
         this.adultCount = adultCount;
     }
 

@@ -1,19 +1,29 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.Frozen;
+import com.datastax.driver.mapping.annotations.UDT;
+
+import java.util.List;
+
+@UDT(keyspace = "flights", name = "pricing")
 public class Pricing {
     private String baseFareTotal;
 
+    @Frozen("frozen<passengers>")
     private Passengers passengers;
 
     private String saleFareTotal;
 
-    private Tax[] tax;
+    @Frozen("frozen<list<frozen<tax>>>")
+    private List<Tax> tax;
 
     private String saleTotal;
 
-    private Fare[] fare;
+    @Frozen("frozen<list<frozen<fare>>>")
+    private List<Fare> fare;
 
-    private SegmentPricing[] segmentPricing;
+    @Frozen("frozen<list<frozen<segment_pricing>>>")
+    private List<SegmentPricing> segmentPricing;
 
     private String fareCalculation;
 
@@ -59,11 +69,11 @@ public class Pricing {
         this.saleFareTotal = saleFareTotal;
     }
 
-    public Tax[] getTax() {
+    public List<Tax> getTax() {
         return tax;
     }
 
-    public void setTax(Tax[] tax) {
+    public void setTax(List<Tax> tax) {
         this.tax = tax;
     }
 
@@ -75,19 +85,19 @@ public class Pricing {
         this.saleTotal = saleTotal;
     }
 
-    public Fare[] getFare() {
+    public List<Fare> getFare() {
         return fare;
     }
 
-    public void setFare(Fare[] fare) {
+    public void setFare(List<Fare> fare) {
         this.fare = fare;
     }
 
-    public SegmentPricing[] getSegmentPricing() {
+    public List<SegmentPricing> getSegmentPricing() {
         return segmentPricing;
     }
 
-    public void setSegmentPricing(SegmentPricing[] segmentPricing) {
+    public void setSegmentPricing(List<SegmentPricing> segmentPricing) {
         this.segmentPricing = segmentPricing;
     }
 

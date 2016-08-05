@@ -1,16 +1,23 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.ClusteringColumn;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
+@Table(keyspace = "flights", name = "city")
 public class City {
-    private String name;
 
+    @PartitionKey
+    private String country;
+
+    @ClusteringColumn(0)
     private String code;
 
-    private String kind;
+    private String name;
 
-    private String country;
+    private String kind;
 
     public String getCountry() {
         return country;

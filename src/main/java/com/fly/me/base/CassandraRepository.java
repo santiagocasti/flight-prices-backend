@@ -1,17 +1,19 @@
 package com.fly.me.base;
 
 import com.datastax.driver.core.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
 
 @Component
-public class CassandraConnector {
+public class CassandraRepository {
 
     protected static Session session = null;
     protected static Cluster cluster = null;
-    private static final Logger logger = Logger.getLogger(CassandraConnector.class.toString());
+    private static final Logger logger = Logger.getLogger(CassandraRepository.class.toString());
 
     private final String KEYSPACE = "flights";
 //    private final String CONTACT_POINTS = "172.31.30.63"; //52.58.49.7
@@ -19,7 +21,7 @@ public class CassandraConnector {
 
     protected static HashMap<String, PreparedStatement> statementHashMap = new HashMap<>();
 
-    protected CassandraConnector() {
+    protected CassandraRepository() {
         checkConnection();
     }
 
@@ -69,5 +71,27 @@ public class CassandraConnector {
             close();
             connect();
         }
+    }
+
+    public Boolean insertJsonObject(String table, Object object) {
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        String json = "";
+        try {
+            json = mapper.writeValueAsString(object);
+        } catch (JsonProcessingException ex) {
+            logger.info("Exception converting carrier to JSON.");
+            ex.printStackTrace();
+        }
+
+        ResultSet result = runInsertJson(table, json);
+
+        return result.all().size() == 0;
+    }
+
+    public Session getSession(){
+        checkConnection();
+        return session;
     }
 }

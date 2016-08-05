@@ -1,5 +1,8 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.UDT;
+
+@UDT(keyspace = "flights", name = "tax")
 public class Tax {
     private String id;
 

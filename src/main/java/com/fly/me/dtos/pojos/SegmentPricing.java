@@ -1,5 +1,11 @@
 package com.fly.me.dtos.pojos;
 
+import com.datastax.driver.mapping.annotations.Frozen;
+import com.datastax.driver.mapping.annotations.UDT;
+
+import java.util.List;
+
+@UDT(keyspace = "flights", name = "segment_pricing")
 public class SegmentPricing {
     private String fareId;
 
@@ -7,13 +13,14 @@ public class SegmentPricing {
 
     private String kind;
 
-    private FreeBaggageOption freeBaggageOption;
+    @Frozen("frozen<list<frozen<baggage_option>>>")
+    private List<FreeBaggageOption> freeBaggageOption;
 
-    public FreeBaggageOption getFreeBaggageOption() {
+    public List<FreeBaggageOption> getFreeBaggageOption() {
         return freeBaggageOption;
     }
 
-    public void setFreeBaggageOption(FreeBaggageOption freeBaggageOption) {
+    public void setFreeBaggageOption(List<FreeBaggageOption> freeBaggageOption) {
         this.freeBaggageOption = freeBaggageOption;
     }
 

@@ -74,7 +74,7 @@ CREATE TYPE segment (
   bookingCodeCount int,
   marriedSegmentGroup text,
   subjectToGovernmentApproval boolean,
-  leg frozen<set<leg>>,
+  leg frozen<list<leg>>,
   connectionDuration int
 );
 
@@ -110,13 +110,13 @@ CREATE TYPE bag_descriptor (
   kind text,
   commercialName text,
   count int,
-  description set<text>,
+  description list<text>,
   subcode text
 );
 
 CREATE TYPE baggage_option (
   kind text,
-  bagDescriptor frozen<set<bag_descriptor>>,
+  bagDescriptor frozen<list<bag_descriptor>>,
   kilos int,
   kilosPerPiece int,
   pieces int,
@@ -127,19 +127,19 @@ CREATE TYPE segment_pricing (
   kind text,
   fareId text,
   segmentId text,
-  freeBaggageOption frozen<set<baggage_option>>,
+  freeBaggageOption frozen<list<baggage_option>>,
 );
 
 CREATE TYPE pricing (
   kind text,
-  fare frozen<set<fare>>,
-  segmentPricing frozen<set<segment_pricing>>,
+  fare frozen<list<fare>>,
+  segmentPricing frozen<list<segment_pricing>>,
   baseFareTotal text,
   saleFareTotal text,
   saleTaxTotal text,
   saleTotal text,
   passengers frozen<passengers>,
-  tax frozen<set<tax>>,
+  tax frozen<list<tax>>,
   fareCalculation text,
   latestTicketingTime text,
   ptc text,
@@ -149,7 +149,7 @@ CREATE TYPE pricing (
 CREATE TYPE slice (
   kind text,
   duration int,
-  segment frozen<set<segment>>,
+  segment frozen<list<segment>>,
 );
 
 CREATE TABLE import (
@@ -163,8 +163,8 @@ CREATE TABLE trip_option (
   kind text,
   saleTotal text,
   id text,
-  slice frozen<set<slice>>,
-  pricing frozen<set<pricing>>,
+  slice frozen<list<slice>>,
+  pricing frozen<list<pricing>>,
   date text,
   time text,
   PRIMARY KEY (date, time, id)

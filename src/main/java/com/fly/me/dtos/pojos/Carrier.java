@@ -1,9 +1,15 @@
 package com.fly.me.dtos.pojos;
 
-public class Carrier {
-    private String name;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
+@Table(keyspace = "flights", name = "carrier")
+public class Carrier {
+
+    @PartitionKey
     private String code;
+
+    private String name;
 
     private String kind;
 
