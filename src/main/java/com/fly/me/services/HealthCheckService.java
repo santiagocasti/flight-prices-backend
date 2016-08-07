@@ -2,8 +2,8 @@ package com.fly.me.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fly.me.base.CassandraRepository;
 import com.fly.me.dtos.pojos.Import;
-import com.fly.me.repositories.CassandraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
