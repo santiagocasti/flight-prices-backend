@@ -1,9 +1,7 @@
 package com.fly.me.repositories;
 
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Session;
+import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
 import com.fly.me.base.CassandraRepository;
@@ -13,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -41,7 +40,10 @@ public class TripOptionRepository {
 
 	public Boolean saveTripOption(TripOption tripOption) {
 		this.validate(tripOption);
-		return cassandraRepository.insertJsonObject(tablenName, tripOption);
+		MappingManager manager = getMappingManager();
+		Mapper<TripOption> mapper = manager.mapper(TripOption.class);
+		mapper.save(tripOption);
+		return true;
 	}
 
 	public TripOption getOne(String date, String time, String id) {
@@ -51,19 +53,7 @@ public class TripOptionRepository {
 			return null;
 		}
 
-		Session session = cassandraRepository.getSession();
-		MappingManager manager = new MappingManager(session);
-		manager.udtCodec(BagDescriptor.class);
-		manager.udtCodec(Fare.class);
-		manager.udtCodec(Flight.class);
-		manager.udtCodec(FreeBaggageOption.class);
-		manager.udtCodec(Leg.class);
-		manager.udtCodec(Passengers.class);
-		manager.udtCodec(Pricing.class);
-		manager.udtCodec(Segment.class);
-		manager.udtCodec(SegmentPricing.class);
-		manager.udtCodec(Slice.class);
-		manager.udtCodec(Tax.class);
+		MappingManager manager = getMappingManager();
 
 		TripOptionAccessor tripOptionAccessor = manager.createAccessor(TripOptionAccessor.class);
 		TripOption option = tripOptionAccessor.getOne(date, time, id);
@@ -73,6 +63,23 @@ public class TripOptionRepository {
 	}
 
 	public List<TripOption> getForDate(String date) {
+		MappingManager manager = getMappingManager();
+
+		TripOptionAccessor tripOptionAccessor = manager.createAccessor(TripOptionAccessor.class);
+		Result<TripOption> result = tripOptionAccessor.getForDate(date);
+
+		List<TripOption> options = new ArrayList<TripOption>();
+		for (TripOption option : result) {
+			logger.info(String.format("[%s][%s] - [%s]", option.getDate(), option.getTime(), option.getSaleTotal()));
+			options.add(option);
+		}
+
+		logger.info("options.size() = "+options.size());
+
+		return options;
+	}
+
+	protected MappingManager getMappingManager() {
 		Session session = cassandraRepository.getSession();
 		MappingManager manager = new MappingManager(session);
 		manager.udtCodec(BagDescriptor.class);
@@ -87,14 +94,6 @@ public class TripOptionRepository {
 		manager.udtCodec(Slice.class);
 		manager.udtCodec(Tax.class);
 
-		TripOptionAccessor tripOptionAccessor = manager.createAccessor(TripOptionAccessor.class);
-		Result<TripOption> result = tripOptionAccessor.getForDate(date);
-
-		for (TripOption option : result) {
-			logger.info(String.format("[%s][%s] - [%s]", option.getDate(), option.getTime(), option.getSaleTotal()));
-		}
-
-		return result.all();
-
+		return manager;
 	}
 }
