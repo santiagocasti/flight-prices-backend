@@ -34,7 +34,7 @@ public class SearchResultsService {
 
     private static final Logger logger = Logger.getLogger(SearchResultsService.class.toString());
 
-    public int saveSearchResults(SearchResponse res) {
+    public int saveSearchResults(FlightSearchParameters searchParams, SearchResponse res) {
 
         Trips trips = res.getTrips();
         if (trips == null) {
@@ -42,42 +42,81 @@ public class SearchResultsService {
             return 0;
         }
 
+        // record the saving time, common for all records
+        Date savingTime= new Date();
+
         Data data = trips.getData();
 
-        //airports
-        Airport[] airports = data.getAirport();
-        airportService.saveAirports(airports);
-
-        //city
-        City[] cities = data.getCity();
-        cityService.saveCities(cities);
-
-        //aircraft
-        Aircraft[] aircrafts = data.getAircraft();
-        aircraftService.saveAircrafts(aircrafts);
-
-        //carrier
-        Carrier[] carriers = data.getCarrier();
-        carrierService.saveCarriers(carriers);
-
-        //tax
-        GeneralTax[] taxes = data.getTax();
-        generalTaxService.saveGeneralTaxes(taxes);
-
-        Date now = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
-        String date = dateFormat.format(now);
-        String time = timeFormat.format(now);
-
-        //trip options
-        TripOption[] options = trips.getTripOption();
-        tripOptionService.saveTripOptions(options, date, time);
+        saveAirports(data);
+        saveCities(data);
+        saveAircrafts(data);
+        saveCarriers(data);
+        saveGeneralTax(data);
+        saveTripOptions(trips, savingTime, searchParams);
 
         //record the import
-        importsService.saveImport(date, time, options.length);
+        importsService.saveImport(getDateString(savingTime), getTimeString(savingTime), trips.getTripOption().length);
 
-        return options.length;
+        return trips.getTripOption().length;
+    }
+
+    public String getDateString(Date now){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(now);
+    }
+
+    public String getTimeString(Date now) {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        return timeFormat.format(now);
+    }
+
+    public void saveAirports(Data data) {
+        Airport[] airports = data.getAirport();
+        if (airports.length > 0){
+            airportService.saveAirports(airports);
+        }
+    }
+
+    public void saveCities(Data data) {
+        City[] cities = data.getCity();
+        if (cities.length > 0) {
+            cityService.saveCities(cities);
+        }
+    }
+
+    public void saveAircrafts(Data data) {
+        Aircraft[] aircrafts = data.getAircraft();
+        if (aircrafts.length > 0) {
+            aircraftService.saveAircrafts(aircrafts);
+        }
+    }
+
+    public void saveCarriers(Data data) {
+        Carrier[] carriers = data.getCarrier();
+        if (carriers.length > 0) {
+            carrierService.saveCarriers(carriers);
+        }
+    }
+
+    public void saveGeneralTax(Data data) {
+        GeneralTax[] taxes = data.getTax();
+        if (taxes.length > 0) {
+            generalTaxService.saveGeneralTaxes(taxes);
+        }
+    }
+
+    public void saveTripOptions(Trips trips, Date savingTime, FlightSearchParameters searchParams) {
+        TripOption[] options = trips.getTripOption();
+        String date = getDateString(savingTime);
+        String time = getTimeString(savingTime);
+        for (TripOption option : options ) {
+            option.setDate(date);
+            option.setTime(time);
+        }
+
+        if (options.length > 0) {
+            tripOptionService.saveTripOptions(options, searchParams);
+        }
     }
 
 }

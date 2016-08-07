@@ -22,7 +22,7 @@ public class FlightSearchService {
     public int findFlights(FlightSearchParameters parameters) {
         QPXSearchParameters params = convertToQPXFormat(parameters);
         SearchResponse response = googleQPXAPIService.searchFlights(params);
-        return searchResultsService.saveSearchResults(response);
+        return searchResultsService.saveSearchResults(parameters, response);
     }
 
     protected QPXSearchParameters convertToQPXFormat(FlightSearchParameters parameters) {
@@ -36,6 +36,7 @@ public class FlightSearchService {
         slice.setOrigin(parameters.getOrigin());
         slice.setDestination(parameters.getDestination());
         slice.setDate(parameters.getFlightOutDate().format(formatter));
+        slice.setMaxStops(0);
         params.addSlice(slice);
 
         if (parameters.isReturnFlight()) {
@@ -43,6 +44,7 @@ public class FlightSearchService {
             slice.setOrigin(parameters.getDestination());
             slice.setDestination(parameters.getOrigin());
             slice.setDate(parameters.getFlightBackDate().format(formatter));
+            slice.setMaxStops(0);
             params.addSlice(slice);
         }
 
