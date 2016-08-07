@@ -170,9 +170,35 @@ CREATE TABLE trip_option (
   PRIMARY KEY (date, time, id)
 );
 
+CREATE TABLE flattened_trip_option (
+  flight_code text,
+  date text,
+  time text,
+  price float,
+  id text,
+  flight_code_out text,
+  flight_code_return text,
+  currency text,
+  PRIMARY KEY (flight_code, date, time, price)
+);
+
+CREATE TABLE origin_destination_tuple (
+  origin_city_code text,
+  origin_airport_code text,
+  destination_city_code text,
+  destination_airport_code text,
+  PRIMARY KEY (origin_airport_code, destination_airport_code)
+);
+
+CREATE TABLE flight_tuples_by_journey (
+  journey_code text,
+  flight_out_code text,
+  return_flight_code text,
+  PRIMARY KEY (journey_code, flight_out_code, return_flight_code)
+);
 
 
-
+-- copy trip_option to '2016-08-04_trip_option.backup' ;
 
 
 
