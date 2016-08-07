@@ -16,8 +16,8 @@ public class CassandraRepository {
     private static final Logger logger = Logger.getLogger(CassandraRepository.class.toString());
 
     private final String KEYSPACE = "flights";
-//    private final String CONTACT_POINTS = "172.31.30.63"; //52.58.49.7
-    private final String CONTACT_POINTS = "192.168.1.16"; //52.58.49.7
+    private final String CONTACT_POINTS = "172.31.30.63";
+//    private final String CONTACT_POINTS = "192.168.1.16";
 
     protected static HashMap<String, PreparedStatement> statementHashMap = new HashMap<>();
 
