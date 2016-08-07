@@ -91,7 +91,7 @@ public class GoogleQPXAPIService {
     }
 
     protected String getUrl() {
-        return "https://www.googleapis.com/qpxExpress/v1/trips/searchFlights" + "?" + "key=" + API_KEY;
+        return "https://www.googleapis.com/qpxExpress/v1/trips/search" + "?" + "key=" + API_KEY;
     }
 
 }
