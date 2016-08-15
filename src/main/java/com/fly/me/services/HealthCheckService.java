@@ -12,28 +12,30 @@ import java.util.logging.Logger;
 @Service
 public class HealthCheckService {
 
+    private final Logger logger = Logger.getLogger(HealthCheckService.class.toString());
     @Autowired
     protected CassandraRepository cassandraRepository;
-
     @Autowired
     protected ImportsService importsService;
-
-    private final Logger logger = Logger.getLogger(HealthCheckService.class.toString());
 
     public String performHealthCheck() {
 
         Import imp = importsService.getLast();
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        String result = "";
-
-        try {
-            result = mapper.writeValueAsString(imp);
-        } catch (JsonProcessingException e) {
-            logger.info("Exception while converting object to JSON.");
-            e.printStackTrace();
+        String result;
+        if (imp == null) {
+            result = "{error: 'no imports on record'}";
+        } else {
+            ObjectMapper mapper = new ObjectMapper();
+            result = "";
+            try {
+                result = mapper.writeValueAsString(imp);
+            } catch (JsonProcessingException e) {
+                logger.info("Exception while converting object to JSON.");
+                e.printStackTrace();
+            }
         }
+
 
         return result;
     }
