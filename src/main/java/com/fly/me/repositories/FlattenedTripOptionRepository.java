@@ -1,12 +1,18 @@
 package com.fly.me.repositories;
 
+import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import com.datastax.driver.mapping.Result;
 import com.fly.me.base.CassandraRepository;
+import com.fly.me.base.accessors.FlattenedTripOptionAccessor;
 import com.fly.me.dtos.pojos.FlattenedTripOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Repository
@@ -26,4 +32,27 @@ public class FlattenedTripOptionRepository {
         return true;
     }
 
+    public List<FlattenedTripOption> getPricesFor(
+            String flightOutCode,
+            String flightBackCode,
+            LocalDate flightOutDate,
+            LocalDate flightBackDate) {
+
+        Session session = cassandraRepository.getSession();
+        MappingManager manager = new MappingManager(session);
+
+        FlattenedTripOptionAccessor flattenedTripOptionAccessor = manager.createAccessor(FlattenedTripOptionAccessor.class);
+        Result<FlattenedTripOption> result = flattenedTripOptionAccessor.getAll(getFlightCode(flightOutCode, flightBackCode));
+
+        List<FlattenedTripOption> options = new ArrayList<>();
+        for (FlattenedTripOption option : result) {
+            options.add(option);
+        }
+
+        return options;
+    }
+
+    protected String getFlightCode(String flightOutCode, String flightBackCode) {
+        return flightOutCode + "-" + flightBackCode;
+    }
 }
