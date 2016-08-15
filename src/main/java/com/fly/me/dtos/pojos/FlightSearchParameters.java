@@ -56,11 +56,11 @@ public class FlightSearchParameters {
         return returnFlight;
     }
 
-    public Boolean isReturnFlight() {
-        return returnFlight;
-    }
-
     public void setReturnFlight(Boolean returnFlight) {
         this.returnFlight = returnFlight;
+    }
+
+    public Boolean isReturnFlight() {
+        return returnFlight;
     }
 }

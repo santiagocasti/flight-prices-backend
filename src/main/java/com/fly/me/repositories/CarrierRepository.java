@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CarrierRepository {
 
+    protected final String tablenName = "carrier";
     @Autowired
     protected CassandraRepository cassandraRepository;
-
-    protected final String tablenName = "carrier";
 
     public Boolean saveCarrier(Carrier carrier) {
         this.validate(carrier);

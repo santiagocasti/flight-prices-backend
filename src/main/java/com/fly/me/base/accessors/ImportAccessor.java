@@ -7,12 +7,12 @@ import com.fly.me.dtos.pojos.Import;
 
 @Accessor
 public interface ImportAccessor {
-	@Query("SELECT * FROM import WHERE date = ?")
-	Result<Import> getForDate(String date);
+    @Query("SELECT * FROM import WHERE date = ?")
+    Result<Import> getForDate(String date);
 
-	@Query("SELECT * FROM import WHERE date = ? AND time = ?")
-	Import getOne(String date, String time);
+    @Query("SELECT * FROM import WHERE date = ? AND time = ?")
+    Import getOne(String date, String time);
 
-	@Query("SELECT * FROM import")
-	Result<Import> getAll();
+    @Query("SELECT * FROM import")
+    Result<Import> getAll();
 }

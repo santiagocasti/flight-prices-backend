@@ -23,7 +23,7 @@ public class ImportsService {
         return importsRepository.saveImport(importInstance);
     }
 
-    public Import getLast(){
+    public Import getLast() {
         Date now = new Date();
         return importsRepository.getLastImportFrom(now);
     }

@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GeneralTaxRepository {
 
+    protected final String tablenName = "general_tax";
     @Autowired
     protected CassandraRepository cassandraRepository;
-
-    protected final String tablenName = "general_tax";
 
     public void validate(GeneralTax tax) {
         if (tax.getId() == null) {

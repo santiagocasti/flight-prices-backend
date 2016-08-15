@@ -7,9 +7,9 @@ import com.fly.me.dtos.pojos.TripOption;
 
 @Accessor
 public interface TripOptionAccessor {
-	@Query("SELECT * FROM trip_option WHERE date = ?")
-	Result<TripOption> getForDate(String date);
+    @Query("SELECT * FROM trip_option WHERE date = ?")
+    Result<TripOption> getForDate(String date);
 
-	@Query("SELECT * FROM trip_option WHERE date = ? AND time = ? AND id = ?")
-	TripOption getOne(String date, String time, String id);
+    @Query("SELECT * FROM trip_option WHERE date = ? AND time = ? AND id = ?")
+    TripOption getOne(String date, String time, String id);
 }

@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AircraftRepository {
 
+    protected final String tablenName = "aircraft";
     @Autowired
     protected CassandraRepository cassandraRepository;
-
-    protected final String tablenName = "aircraft";
 
     public Boolean saveAircraft(Aircraft aircraft) {
 

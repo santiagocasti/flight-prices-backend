@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 @ComponentScan
 @EnableAutoConfiguration
 @EnableScheduling
-public class App extends SpringBootServletInitializer{
+public class App extends SpringBootServletInitializer {
 
     private static final Logger logger = Logger.getLogger(App.class.toString());
 

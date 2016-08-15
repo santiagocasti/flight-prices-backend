@@ -1,7 +1,8 @@
 package com.fly.me.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fly.me.dtos.pojos.*;
+import com.fly.me.dtos.pojos.FlightSearchParameters;
+import com.fly.me.dtos.pojos.SearchResponse;
 import com.fly.me.repositories.FlattenedTripOptionRepository;
 import com.fly.me.repositories.FlightTupleRepository;
 import com.fly.me.repositories.ImportsRepository;
@@ -17,40 +18,32 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
 public class ImportsController {
 
-	@Autowired
-	protected ImportsRepository importsRepository;
+    private final Logger logger = Logger.getLogger(ImportsController.class.toString());
+    @Autowired
+    protected ImportsRepository importsRepository;
+    @Autowired
+    protected FlightTupleRepository flightTupleRepository;
+    @Autowired
+    protected OriginDestinationTupleRepository originDestinationTupleRepository;
+    @Autowired
+    protected FlightSearchService flightSearchService;
+    @Autowired
+    protected SearchResultsService searchResultsService;
+    @Autowired
+    protected TripOptionService tripOptionService;
+    @Autowired
+    protected FlattenedTripOptionRepository flattenedTripOptionRepository;
 
-	@Autowired
-	protected FlightTupleRepository flightTupleRepository;
-
-	@Autowired
-	protected OriginDestinationTupleRepository originDestinationTupleRepository;
-
-	@Autowired
-	protected FlightSearchService flightSearchService;
-
-	@Autowired
-	protected SearchResultsService searchResultsService;
-
-	@Autowired
-	protected TripOptionService tripOptionService;
-
-	@Autowired
-	protected FlattenedTripOptionRepository flattenedTripOptionRepository;
-
-	private final Logger logger = Logger.getLogger(ImportsController.class.toString());
-
-	@RequestMapping("/imports")
-	public
-	@ResponseBody
-	String imports() {
-		try {
+    @RequestMapping("/imports")
+    public
+    @ResponseBody
+    String imports() {
+        try {
 //            FlightSearchParameters params = new FlightSearchParameters();
 //            params.setAdultCount(1);
 //            params.setOrigin("BOS");
@@ -60,42 +53,42 @@ public class ImportsController {
 //            params.setReturnFlight(true);
 //            flightSearchService.findFlights(params);
 
-			this.fakeResponse();
+            this.fakeResponse();
 
-		} catch (Exception e) {
-			logger.info("Shit happened!");
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            logger.info("Shit happened!");
+            e.printStackTrace();
+        }
 
-		return "Yolo";
-	}
+        return "Yolo";
+    }
 
-	@RequestMapping("/stats")
-	public
-	@ResponseBody
-	String stats() {
+    @RequestMapping("/stats")
+    public
+    @ResponseBody
+    String stats() {
 
-		//testing endpoint to try out code quickly
+        //testing endpoint to try out code quickly
 
-		return "Yolo2";
-	}
+        return "Yolo2";
+    }
 
-	public void fakeResponse() throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get("/Users/santiago/code/mvn-tutorial/project_2/backend/src/main/Resources/exampleResponse.json"));
-		String result = new String(encoded, "UTF-8");
+    public void fakeResponse() throws IOException {
+        byte[] encoded = Files.readAllBytes(Paths.get("/Users/santiago/code/mvn-tutorial/project_2/backend/src/main/Resources/exampleResponse.json"));
+        String result = new String(encoded, "UTF-8");
 
-		logger.info("The size of result is: " + result.length());
-		ObjectMapper mapper = new ObjectMapper();
+        logger.info("The size of result is: " + result.length());
+        ObjectMapper mapper = new ObjectMapper();
 
-		//JSON from String to Object
-		SearchResponse searchResponse = mapper.readValue(result, SearchResponse.class);
-		logger.info("Kind of object: " + searchResponse.getKind());
+        //JSON from String to Object
+        SearchResponse searchResponse = mapper.readValue(result, SearchResponse.class);
+        logger.info("Kind of object: " + searchResponse.getKind());
 
-		FlightSearchParameters params = new FlightSearchParameters();
-		params.setOrigin("BOS");
-		params.setDestination("LAX");
+        FlightSearchParameters params = new FlightSearchParameters();
+        params.setOrigin("BOS");
+        params.setDestination("LAX");
 
-		searchResultsService.saveSearchResults(params, searchResponse);
-	}
+        searchResultsService.saveSearchResults(params, searchResponse);
+    }
 
 }

@@ -7,7 +7,7 @@ import com.datastax.driver.mapping.annotations.Table;
 
 import java.util.List;
 
-@Table( keyspace = "flights", name = "trip_option")
+@Table(keyspace = "flights", name = "trip_option")
 public class TripOption {
 
     @PartitionKey

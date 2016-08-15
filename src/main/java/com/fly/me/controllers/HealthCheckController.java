@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 @RestController
 public class HealthCheckController {
 
+    protected static Logger logger = Logger.getLogger(HealthCheckController.class.toString());
     @Autowired
     protected HealthCheckService healthCheckService;
 
-    protected static Logger logger = Logger.getLogger(HealthCheckController.class.toString());
-
     @RequestMapping("/healthcheck")
-    public @ResponseBody
+    public
+    @ResponseBody
     String healthCheck() {
         logger.info("Handling /healthcheck ...");
         return healthCheckService.performHealthCheck();

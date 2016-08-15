@@ -14,19 +14,15 @@ import java.util.logging.Logger;
 @Service
 public class TripOptionService {
 
+    private static final Logger logger = Logger.getLogger(TripOptionService.class.toString());
     @Autowired
     protected TripOptionRepository tripOptionRepository;
-
     @Autowired
     protected FlightTupleRepository flightTupleRepository;
-
     @Autowired
     protected OriginDestinationTupleRepository originDestinationTupleRepository;
-
     @Autowired
     protected FlattenedTripOptionRepository flattenedTripOptionRepository;
-
-    private static final Logger logger = Logger.getLogger(TripOptionService.class.toString());
 
     public List<TripOption> getAll(String date) {
         return tripOptionRepository.getForDate(date);
@@ -49,12 +45,12 @@ public class TripOptionService {
         fto.setTime(option.getTime());
         fto.setId(option.getId());
         String saleTotal = option.getSaleTotal();
-        fto.setCurrency(saleTotal.substring(0,2));
+        fto.setCurrency(saleTotal.substring(0, 2));
         Float price = Float.valueOf(saleTotal.substring(3, saleTotal.length()));
         fto.setPrice(price);
 
         List<Slice> slices = option.getSlice();
-        if (slices.size() != 2){
+        if (slices.size() != 2) {
             logger.warning("Wrong number of slices for: " + option.toString());
             return;
         }

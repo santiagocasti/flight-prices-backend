@@ -11,28 +11,21 @@ import java.util.logging.Logger;
 @Service
 public class SearchResultsService {
 
+    private static final Logger logger = Logger.getLogger(SearchResultsService.class.toString());
     @Autowired
     protected AirportService airportService;
-
     @Autowired
     protected CityService cityService;
-
     @Autowired
     protected AircraftService aircraftService;
-
     @Autowired
     protected GeneralTaxService generalTaxService;
-
     @Autowired
     protected CarrierService carrierService;
-
     @Autowired
     protected TripOptionService tripOptionService;
-
     @Autowired
     protected ImportsService importsService;
-
-    private static final Logger logger = Logger.getLogger(SearchResultsService.class.toString());
 
     public int saveSearchResults(FlightSearchParameters searchParams, SearchResponse res) {
 
@@ -43,7 +36,7 @@ public class SearchResultsService {
         }
 
         // record the saving time, common for all records
-        Date savingTime= new Date();
+        Date savingTime = new Date();
 
         Data data = trips.getData();
 
@@ -60,7 +53,7 @@ public class SearchResultsService {
         return trips.getTripOption().length;
     }
 
-    public String getDateString(Date now){
+    public String getDateString(Date now) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(now);
     }
@@ -72,7 +65,7 @@ public class SearchResultsService {
 
     public void saveAirports(Data data) {
         Airport[] airports = data.getAirport();
-        if (airports.length > 0){
+        if (airports.length > 0) {
             airportService.saveAirports(airports);
         }
     }
@@ -109,7 +102,7 @@ public class SearchResultsService {
         TripOption[] options = trips.getTripOption();
         String date = getDateString(savingTime);
         String time = getTimeString(savingTime);
-        for (TripOption option : options ) {
+        for (TripOption option : options) {
             option.setDate(date);
             option.setTime(time);
         }

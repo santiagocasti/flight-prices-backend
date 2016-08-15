@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AirportRepository {
 
+    protected final String tablenName = "airport";
     @Autowired
     protected CassandraRepository cassandraRepository;
-
-    protected final String tablenName = "airport";
 
     public void validate(Airport airport) {
         if (airport.getCity() == null) {

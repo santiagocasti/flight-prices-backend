@@ -27,7 +27,7 @@ public class GoogleQPXAPIService {
 
         HttpClient client = HttpClientBuilder.create().build();
         String url = getUrl();
-        logger.info("URL: "+url);
+        logger.info("URL: " + url);
         HttpPost post = new HttpPost(url);
         post.setHeader("Content-Type", "application/json");
 
@@ -48,17 +48,17 @@ public class GoogleQPXAPIService {
             String result = EntityUtils.toString(entity, "UTF-8");
             logger.info("The size of result is: " + result.length());
 
-            if (statusCode == 200){
+            if (statusCode == 200) {
                 ObjectMapper mapper = new ObjectMapper();
                 //JSON from String to Object
                 searchResponse = mapper.readValue(result, SearchResponse.class);
                 logger.info("Kind of object: " + searchResponse.getKind());
-            }else{
+            } else {
                 logger.info("Request failed [" + statusCode + "] and the response was:");
                 logger.info(result);
             }
 
-        } catch (IOException exc){
+        } catch (IOException exc) {
             logger.warning("Scheiße happened :)");
             logger.info(exc.getMessage());
             for (StackTraceElement el : exc.getStackTrace()) {

@@ -1,6 +1,5 @@
 package com.fly.me.dtos.pojos;
 
-import com.datastax.driver.mapping.annotations.Column;
 import com.datastax.driver.mapping.annotations.Field;
 import com.datastax.driver.mapping.annotations.UDT;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

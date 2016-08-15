@@ -8,10 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CityRepository {
 
+    protected final String tablenName = "city";
     @Autowired
     protected CassandraRepository cassandraRepository;
-
-    protected final String tablenName = "city";
 
     public Boolean saveCity(City city) {
         this.validate(city);
