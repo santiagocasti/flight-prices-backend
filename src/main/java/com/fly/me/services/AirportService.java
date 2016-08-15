@@ -5,11 +5,15 @@ import com.fly.me.repositories.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class AirportService {
 
     @Autowired
     protected AirportRepository airportRepository;
+
+    private final Logger logger = Logger.getLogger(AirportService.class.toString());
 
     public Boolean saveAirports(Airport[] airports) {
 
@@ -20,4 +24,7 @@ public class AirportService {
         return true;
     }
 
+    public Airport getOne(String cityCode) {
+        return airportRepository.get(cityCode);
+    }
 }
