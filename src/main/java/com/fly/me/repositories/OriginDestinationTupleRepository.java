@@ -10,11 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.logging.Logger;
 
 @Repository
-public class OriginDestinationTupleRepository {
+public class OriginDestinationTupleRepository extends BaseCassandraRepository {
 
     private final Logger logger = Logger.getLogger(OriginDestinationTupleRepository.class.toString());
-    @Autowired
-    protected CassandraRepository cassandraRepository;
 
     public Boolean validate(OriginDestinationTuple tuple) {
 
@@ -33,7 +31,7 @@ public class OriginDestinationTupleRepository {
             return false;
         }
 
-        MappingManager manager = new MappingManager(cassandraRepository.getSession());
+        MappingManager manager = getMappingManager();
         Mapper<OriginDestinationTuple> mapper = manager.mapper(OriginDestinationTuple.class);
         mapper.save(tuple);
 

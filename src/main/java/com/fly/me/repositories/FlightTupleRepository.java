@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Repository
-public class FlightTupleRepository {
+public class FlightTupleRepository extends BaseCassandraRepository {
 
     private final Logger logger = Logger.getLogger(FlightTupleRepository.class.toString());
     @Autowired
@@ -42,7 +42,7 @@ public class FlightTupleRepository {
             return false;
         }
 
-        MappingManager manager = new MappingManager(cassandraRepository.getSession());
+        MappingManager manager = getMappingManager();
         Mapper<FlightTuple> mapper = manager.mapper(FlightTuple.class);
         mapper.save(flightTuple);
 
@@ -54,8 +54,7 @@ public class FlightTupleRepository {
     }
 
     public List<FlightTuple> getAll(Airport origin, Airport destination) {
-        Session session = cassandraRepository.getSession();
-        MappingManager manager = new MappingManager(session);
+        MappingManager manager = getMappingManager();
 
         FlightTupleAccessor flightTupleAccessor= manager.createAccessor(FlightTupleAccessor.class);
         Result<FlightTuple> result = flightTupleAccessor.getAll(getJourneyCode(origin, destination));

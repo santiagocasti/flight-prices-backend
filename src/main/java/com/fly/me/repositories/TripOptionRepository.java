@@ -17,12 +17,10 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Repository
-public class TripOptionRepository {
+public class TripOptionRepository extends BaseCassandraRepository {
 
     protected final String tablenName = "trip_option";
     private final Logger logger = Logger.getLogger(TripOptionRepository.class.toString());
-    @Autowired
-    protected CassandraRepository cassandraRepository;
 
     public void validate(TripOption option) {
         if (option.getDate() == null || option.getTime() == null) {
@@ -78,20 +76,25 @@ public class TripOptionRepository {
     }
 
     protected MappingManager getMappingManager() {
-        Session session = cassandraRepository.getSession();
-        MappingManager manager = new MappingManager(session);
-        manager.udtCodec(BagDescriptor.class);
-        manager.udtCodec(Fare.class);
-        manager.udtCodec(Flight.class);
-        manager.udtCodec(FreeBaggageOption.class);
-        manager.udtCodec(Leg.class);
-        manager.udtCodec(Passengers.class);
-        manager.udtCodec(Pricing.class);
-        manager.udtCodec(Segment.class);
-        manager.udtCodec(SegmentPricing.class);
-        manager.udtCodec(Slice.class);
-        manager.udtCodec(Tax.class);
 
-        return manager;
+        if (mappingManager != null) {
+            return mappingManager;
+        }
+
+        Session session = cassandraRepository.getSession();
+        mappingManager = new MappingManager(session);
+        mappingManager.udtCodec(BagDescriptor.class);
+        mappingManager.udtCodec(Fare.class);
+        mappingManager.udtCodec(Flight.class);
+        mappingManager.udtCodec(FreeBaggageOption.class);
+        mappingManager.udtCodec(Leg.class);
+        mappingManager.udtCodec(Passengers.class);
+        mappingManager.udtCodec(Pricing.class);
+        mappingManager.udtCodec(Segment.class);
+        mappingManager.udtCodec(SegmentPricing.class);
+        mappingManager.udtCodec(Slice.class);
+        mappingManager.udtCodec(Tax.class);
+
+        return mappingManager;
     }
 }
