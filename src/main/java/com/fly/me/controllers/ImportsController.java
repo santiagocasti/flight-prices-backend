@@ -74,7 +74,7 @@ public class ImportsController {
     }
 
     public void fakeResponse() throws IOException {
-        byte[] encoded = Files.readAllBytes(Paths.get("/Users/santiago/code/mvn-tutorial/project_2/backend/src/main/Resources/exampleResponse.json"));
+        byte[] encoded = Files.readAllBytes(Paths.get("./src/main/Resources/exampleResponse.json"));
         String result = new String(encoded, "UTF-8");
 
         logger.info("The size of result is: " + result.length());

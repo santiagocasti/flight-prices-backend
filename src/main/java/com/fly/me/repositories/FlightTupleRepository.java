@@ -1,15 +1,12 @@
 package com.fly.me.repositories;
 
-import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
 import com.fly.me.base.CassandraRepository;
 import com.fly.me.base.accessors.FlightTupleAccessor;
-import com.fly.me.base.accessors.ImportAccessor;
 import com.fly.me.dtos.pojos.Airport;
 import com.fly.me.dtos.pojos.FlightTuple;
-import com.fly.me.dtos.pojos.Import;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -56,7 +53,7 @@ public class FlightTupleRepository extends BaseCassandraRepository {
     public List<FlightTuple> getAll(Airport origin, Airport destination) {
         MappingManager manager = getMappingManager();
 
-        FlightTupleAccessor flightTupleAccessor= manager.createAccessor(FlightTupleAccessor.class);
+        FlightTupleAccessor flightTupleAccessor = manager.createAccessor(FlightTupleAccessor.class);
         Result<FlightTuple> result = flightTupleAccessor.getAll(getJourneyCode(origin, destination));
 
         List<FlightTuple> tuples = new ArrayList<>();

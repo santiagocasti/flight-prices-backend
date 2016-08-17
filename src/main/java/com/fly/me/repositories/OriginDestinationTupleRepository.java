@@ -2,9 +2,7 @@ package com.fly.me.repositories;
 
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
-import com.fly.me.base.CassandraRepository;
 import com.fly.me.dtos.pojos.OriginDestinationTuple;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.logging.Logger;

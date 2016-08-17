@@ -4,10 +4,8 @@ import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import com.datastax.driver.mapping.Result;
-import com.fly.me.base.CassandraRepository;
 import com.fly.me.base.accessors.TripOptionAccessor;
 import com.fly.me.dtos.pojos.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.text.SimpleDateFormat;

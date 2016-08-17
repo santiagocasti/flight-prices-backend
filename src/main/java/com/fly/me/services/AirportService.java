@@ -10,10 +10,9 @@ import java.util.logging.Logger;
 @Service
 public class AirportService {
 
+    private final Logger logger = Logger.getLogger(AirportService.class.toString());
     @Autowired
     protected AirportRepository airportRepository;
-
-    private final Logger logger = Logger.getLogger(AirportService.class.toString());
 
     public Boolean saveAirports(Airport[] airports) {
 
