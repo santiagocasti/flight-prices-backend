@@ -1,10 +1,11 @@
 package com.fly.me.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fly.me.Views.JacksonViews;
 import com.fly.me.dtos.pojos.Airport;
 import com.fly.me.dtos.pojos.FlattenedTripOption;
 import com.fly.me.dtos.pojos.FlightTuple;
+import com.fly.me.exceptions.EntityNotFound;
 import com.fly.me.services.AirportService;
 import com.fly.me.services.FlightPricesService;
 import com.fly.me.services.FlightTupleService;
@@ -34,65 +35,43 @@ public class FlightPricesAPI {
     private FlightPricesService flightPricesService;
 
     @RequestMapping("/flight-tuples")
+    @JsonView(JacksonViews.FlightTuple.Basic.class)
     public
     @ResponseBody
-    String getFlightTuplesFor(
+    List<FlightTuple> getFlightTuplesFor(
             @RequestParam(value = "originCity", defaultValue = "BOS") String originCity,
             @RequestParam(value = "destinationCity", defaultValue = "LAX") String destinationCity) {
 
         Airport originAirport = airportService.getOne(originCity);
 
         if (originAirport == null) {
-            return "{error: 'cannot find origin airport'}";
+            logger.warning("Throwing exception, airport not found: " + originCity);
+            throw new EntityNotFound("Airport", originCity);
         }
 
         Airport destinationAirport = airportService.getOne(destinationCity);
         if (destinationAirport == null) {
-            return "{error: 'cannot find destination airport'}";
+            throw new EntityNotFound("Airport", destinationCity);
         }
 
-        List<FlightTuple> tuples = flightTupleService.getFor(originAirport, destinationAirport);
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        String jsonInString;
-        try {
-            jsonInString = mapper.writeValueAsString(tuples);
-        } catch (JsonProcessingException e) {
-            String message = String.format("Couldn't create JSON response for List<FlightTuple> for origin [%s] and destination [%s].", originCity, destinationCity);
-            jsonInString = "{ error : '"+message+"' }";
-            logger.severe(message);
-        }
-
-        return jsonInString;
+        return flightTupleService.getFor(originAirport, destinationAirport);
     }
 
     @RequestMapping("/flight-prices")
-    public @ResponseBody String getFlightPricesFor(
+    @JsonView(JacksonViews.FlattenedTripOption.PriceList.class)
+    public
+    @ResponseBody
+    List<FlattenedTripOption> getFlightPricesFor(
             @RequestParam(value = "flightOutCode", defaultValue = "B6287") String flightOutCode,
             @RequestParam(value = "flightBackCode", defaultValue = "B6488") String flightBackCode,
             @RequestParam(value = "flightOutDate", defaultValue = "2016-11-15") String flightOut,
             @RequestParam(value = "flightBackDate", defaultValue = "2016-11-17") String flightBack
-    ){
+    ) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate flightOutDate = LocalDate.parse(flightOut, formatter);
         LocalDate flightBackDate = LocalDate.parse(flightBack, formatter);
 
-        List<FlattenedTripOption> prices = flightPricesService.getOptions(flightOutCode, flightBackCode, flightOutDate, flightBackDate);
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        String jsonInString;
-        try {
-            jsonInString = mapper.writeValueAsString(prices);
-        } catch (JsonProcessingException e) {
-            String message = String.format("Couldn't create JSON response for List<FlattenedTripOption> for flightOut [%s] and flightBack [%s].", flightOutCode, flightBackCode);
-            jsonInString = "{ error : '"+message+"' }";
-            logger.severe(message);
-        }
-
-        return jsonInString;
-
+        return flightPricesService.getOptions(flightOutCode, flightBackCode, flightOutDate, flightBackDate);
     }
 
 }
