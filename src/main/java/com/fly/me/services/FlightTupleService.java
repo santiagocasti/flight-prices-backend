@@ -1,6 +1,6 @@
 package com.fly.me.services;
 
-import com.fly.me.controllers.FlightPricesAPI;
+import com.fly.me.controllers.FlightPricesController;
 import com.fly.me.dtos.pojos.Airport;
 import com.fly.me.dtos.pojos.FlightTuple;
 import com.fly.me.repositories.FlightTupleRepository;
@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 @Service
 public class FlightTupleService {
 
-    private final Logger logger = Logger.getLogger(FlightPricesAPI.class.toString());
+    private final Logger logger = Logger.getLogger(FlightTupleService.class.toString());
 
     @Autowired
     FlightTupleRepository flightTupleRepository;

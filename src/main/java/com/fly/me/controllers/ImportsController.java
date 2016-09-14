@@ -3,13 +3,7 @@ package com.fly.me.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fly.me.dtos.pojos.FlightSearchParameters;
 import com.fly.me.dtos.pojos.SearchResponse;
-import com.fly.me.repositories.FlattenedTripOptionRepository;
-import com.fly.me.repositories.FlightTupleRepository;
-import com.fly.me.repositories.ImportsRepository;
-import com.fly.me.repositories.OriginDestinationTupleRepository;
-import com.fly.me.services.FlightSearchService;
 import com.fly.me.services.SearchResultsService;
-import com.fly.me.services.TripOptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,20 +18,9 @@ import java.util.logging.Logger;
 public class ImportsController {
 
     private final Logger logger = Logger.getLogger(ImportsController.class.toString());
-    @Autowired
-    protected ImportsRepository importsRepository;
-    @Autowired
-    protected FlightTupleRepository flightTupleRepository;
-    @Autowired
-    protected OriginDestinationTupleRepository originDestinationTupleRepository;
-    @Autowired
-    protected FlightSearchService flightSearchService;
+
     @Autowired
     protected SearchResultsService searchResultsService;
-    @Autowired
-    protected TripOptionService tripOptionService;
-    @Autowired
-    protected FlattenedTripOptionRepository flattenedTripOptionRepository;
 
     @RequestMapping("/imports")
     public
@@ -73,7 +56,7 @@ public class ImportsController {
         return "Yolo2";
     }
 
-    public void fakeResponse() throws IOException {
+    protected void fakeResponse() throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get("./src/main/Resources/exampleResponse.json"));
         String result = new String(encoded, "UTF-8");
 

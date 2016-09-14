@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-public class FlightPricesAPI {
+public class FlightPricesController {
 
-    private final Logger logger = Logger.getLogger(FlightPricesAPI.class.toString());
+    private final Logger logger = Logger.getLogger(FlightPricesController.class.toString());
 
     @Autowired
     private AirportService airportService;
