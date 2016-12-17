@@ -1,4 +1,4 @@
-<h1>Project FlyMe</h1>
+<h1>Project FlightPrices</h1>
 
 <p>This project was started with the intention of creating flight price notification engine similar to what 
 Google Flights Alerts has released a few weeks ago.</p>
@@ -24,4 +24,4 @@ in Cassandra.</p>
 gather data at most 50 times per day, following the limitations from Google Flights API regarding free usage.</p>
 
 <h2>Current Status</h2>
-<p>This project was stopped because Google Flights added precisely the type of alerts that I was needing :)</p>
+<p>This project was stopped because Google Flights added flight prices alerts that was precisely what I needed :)</p>
